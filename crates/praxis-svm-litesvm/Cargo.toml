@@ -1,6 +1,6 @@
 [package]
 name = "praxis-svm-litesvm"
-description = "LiteSVM backend"
+description = "LiteSVM backend for the Praxis Svm trait"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -9,3 +9,8 @@ license.workspace = true
 [dependencies]
 thiserror.workspace = true
 praxis-core = { path = "../praxis-core" }
+litesvm = "0.7"
+solana-sdk.workspace = true
+
+[dev-dependencies]
+solana-sdk.workspace = true
