@@ -1,0 +1,32 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/praxis",
+    "crates/praxis-core",
+    "crates/praxis-idl",
+    "crates/praxis-svm-litesvm",
+    "crates/praxis-svm-mollusk",
+    "crates/praxis-svm-surfpool",
+    "crates/praxis-gen",
+    "crates/praxis-fuzz",
+    "crates/praxis-profile",
+    "crates/praxis-checks",
+    "crates/praxis-report",
+    "crates/praxis-macros",
+    "crates/praxis-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+license = "Apache-2.0 OR MIT"
+authors = ["Praxis Contributors"]
+repository = "https://github.com/praxis-rs/praxis"
+
+[workspace.dependencies]
+thiserror = "1"
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"

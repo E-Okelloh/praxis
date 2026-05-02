@@ -1,0 +1,11 @@
+[package]
+name = "praxis-checks"
+description = "FD/T-2022/AC check pack"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+praxis-core = { path = "../praxis-core" }

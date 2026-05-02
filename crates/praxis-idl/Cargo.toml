@@ -1,0 +1,11 @@
+[package]
+name = "praxis-idl"
+description = "IDL ingestion (Anchor, Codama, Shank)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+praxis-core = { path = "../praxis-core" }

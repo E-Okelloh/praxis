@@ -1,0 +1,11 @@
+[package]
+name = "praxis"
+description = "Rust-native testing, fuzzing, and profiling framework for Solana programs"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+praxis-core = { path = "../praxis-core" }
+praxis-fuzz = { path = "../praxis-fuzz" }

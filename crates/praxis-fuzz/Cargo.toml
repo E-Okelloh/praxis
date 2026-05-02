@@ -1,0 +1,12 @@
+[package]
+name = "praxis-fuzz"
+description = "Invariant fuzzer engine"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+praxis-core = { path = "../praxis-core" }
+praxis-gen = { path = "../praxis-gen" }

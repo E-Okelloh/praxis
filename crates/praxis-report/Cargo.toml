@@ -1,0 +1,13 @@
+[package]
+name = "praxis-report"
+description = "Markdown and JSON report generator"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+praxis-core = { path = "../praxis-core" }
