@@ -8,5 +8,9 @@ license.workspace = true
 
 [dependencies]
 thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 praxis-core = { path = "../praxis-core" }
 praxis-gen = { path = "../praxis-gen" }
+solana-sdk.workspace = true
+proptest.workspace = true

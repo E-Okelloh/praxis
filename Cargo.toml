@@ -31,3 +31,4 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tracing = "0.1"
 solana-sdk = "2"
+proptest = "1.9"
