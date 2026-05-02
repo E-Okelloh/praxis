@@ -8,4 +8,11 @@ license.workspace = true
 
 [dependencies]
 thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 praxis-core = { path = "../praxis-core" }
+anchor-lang-idl-spec = "0.1"
+solana-sdk.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

@@ -6,7 +6,8 @@ pub mod mock;
 pub mod svm;
 
 pub use idl::{
-    AccountConstraint, IxAccountMeta, NormalIdl, NormalInstruction, PdaRule, SeedComponent,
+    AccountConstraint, IdlType, InstructionArg, IxAccountMeta, KnownProgram,
+    NormalIdl, NormalInstruction, PdaProgram, PdaRule, SeedComponent,
 };
 pub use mock::MockSvm;
 pub use svm::{ExecResult, Svm, SvmCapabilities, SvmSnapshot};
