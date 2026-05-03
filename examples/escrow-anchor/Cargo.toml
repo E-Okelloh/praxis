@@ -1,0 +1,24 @@
+[workspace]
+
+[package]
+name = "escrow"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+# Pin to 1.18 so cargo-build-sbf (Cargo 1.84) can resolve deps without edition2024.
+solana-program = "=1.18.26"
+borsh = "0.10"
+# The following pins prevent edition2024 crate manifests from reaching
+# Cargo 1.84 (bundled with cargo-build-sbf / platform-tools v1.52).
+# indexmap 2.14+ and blake3 1.6+ both adopt edition2024 transitively.
+indexmap = "=2.7.1"
+blake3 = ">=1, <1.6"
+
+[dev-dependencies]
+# Used only for host-side tests; not compiled to BPF.
+solana-program-test = "=1.18.26"
+solana-sdk = "=1.18.26"

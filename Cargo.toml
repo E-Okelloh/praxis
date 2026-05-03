@@ -14,6 +14,8 @@ members = [
     "crates/praxis-report",
     "crates/praxis-macros",
     "crates/praxis-cli",
+    # examples/escrow-anchor is compiled separately via cargo build-sbf
+    # (it uses solana-program 1.18 which conflicts with litesvm's solana 2.x deps)
 ]
 
 [workspace.package]

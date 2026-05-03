@@ -1,0 +1,25 @@
+[program]
+name = "my_program"
+path = "./target/deploy/my_program.so"
+idl  = "./target/idl/my_program.json"
+
+[backend]
+default = "litesvm"
+fuzz    = "litesvm"
+profile = "mollusk"
+forked  = "surfpool"
+
+[fuzz]
+iterations    = 50_000
+seed          = 0xDEADBEEF
+parallel      = 8
+budget_secs   = 600
+mutations     = ["MissingSigner", "WrongOwner", "WrongPdaSeeds"]
+
+[checks]
+enabled = ["AC-001", "AC-002", "CPI-001", "FD-001", "FD-002", "T22-001"]
+
+[report]
+output_dir = "./.praxis/reports"
+formats    = ["markdown", "json"]
+fail_on    = "high"
