@@ -2228,6 +2228,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "praxis-e2e"
+version = "0.1.0"
+dependencies = [
+ "praxis-core",
+ "praxis-svm-litesvm",
+ "solana-sdk",
+]
+
+[[package]]
 name = "praxis-fuzz"
 version = "0.1.0"
 dependencies = [

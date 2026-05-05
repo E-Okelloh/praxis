@@ -36,7 +36,7 @@ impl LiteSvmBackend {
 
     /// Deploy a compiled program from raw bytes.
     pub fn add_program(&mut self, program_id: Pubkey, program_bytes: &[u8]) {
-        self.inner.add_program(program_id, program_bytes);
+        let _ = self.inner.add_program(program_id, program_bytes);
     }
 
     /// Deploy a compiled program from a `.so` file path.

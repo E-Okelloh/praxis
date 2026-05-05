@@ -1,0 +1,15 @@
+[package]
+name = "praxis-e2e"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+# Not published — integration test harness only.
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dev-dependencies]
+praxis-svm-litesvm = { path = "../../crates/praxis-svm-litesvm" }
+praxis-core         = { path = "../../crates/praxis-core" }
+solana-sdk          = "2"
