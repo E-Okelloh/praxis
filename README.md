@@ -456,11 +456,3 @@ Praxis is in active Phase 1 development. Contributions are welcome once the Phas
 
 ---
 
-## License
-
-Licensed under either of:
-
-- [Apache License, Version 2.0](LICENSE-APACHE)
-- [MIT license](LICENSE-MIT)
-
-at your option.
