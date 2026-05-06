@@ -207,6 +207,7 @@ mod tests {
         let set = AccountSpawner::spawn(&ix, Pubkey::new_unique(), 42);
         let entry = set.get("authority").unwrap();
         assert!(entry.keypair.is_some());
+        use solana_sdk::signer::Signer as _;
         assert_eq!(entry.keypair.as_ref().unwrap().pubkey(), entry.pubkey);
     }
 

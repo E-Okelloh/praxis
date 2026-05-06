@@ -80,7 +80,7 @@ pub(crate) fn compute_diff(baseline: &Profiler, new: &Profiler) -> ProfileDiff {
         })
         .collect();
 
-    instructions.sort_by(|a, b| b.delta.unsigned_abs().cmp(&a.delta.unsigned_abs()));
+    instructions.sort_by_key(|d| std::cmp::Reverse(d.delta.unsigned_abs()));
 
     ProfileDiff {
         baseline_total_cu: baseline_report.total_cu,

@@ -69,7 +69,7 @@ pub(crate) fn build_report(name: &str, samples: &[Sample]) -> ProfileReport {
         })
         .collect();
 
-    instructions.sort_by(|a, b| b.total_cu.cmp(&a.total_cu));
+    instructions.sort_by_key(|i| std::cmp::Reverse(i.total_cu));
 
     ProfileReport {
         name: name.to_owned(),

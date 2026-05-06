@@ -2,7 +2,7 @@
 use std::sync::{Arc, Mutex};
 
 use praxis_core::{ExecResult, NormalIdl, NormalInstruction, Svm};
-use praxis_gen::{AccountEntry, AccountSet, MutationStrategy};
+use praxis_gen::{AccountSet, MutationStrategy};
 use solana_sdk::{pubkey::Pubkey, signature::Keypair, signer::Signer as _};
 
 use crate::{
@@ -73,7 +73,7 @@ impl Ctx {
         use praxis_gen::rng::Rng;
         let mut rng = Rng::new(seed);
         let kp = Arc::new(
-            Keypair::from_bytes(&rng.next_bytes::<64>())
+            Keypair::try_from(rng.next_bytes::<64>().as_slice())
                 .unwrap_or_else(|_| Keypair::new()),
         );
         let acc = solana_sdk::account::Account {

@@ -2,7 +2,7 @@
 use std::sync::{Arc, Mutex};
 
 use praxis_core::{ExecResult, NormalInstruction, Svm, SvmSnapshot};
-use praxis_gen::{AccountSet, AccountSpawner, MutationStrategy, TxComposer};
+use praxis_gen::{AccountSpawner, MutationStrategy, TxComposer};
 use proptest::{
     prelude::*,
     test_runner::{Config as PropConfig, TestCaseError, TestRunner},
@@ -32,10 +32,13 @@ impl Default for RunConfig {
     }
 }
 
+/// Type alias for the invariant predicate closure.
+pub type InvariantFn = Arc<dyn Fn(&dyn Svm, &ExecResult) -> bool + Send + Sync>;
+
 /// A registered invariant: name + predicate over post-execution state.
 pub struct Invariant {
     pub name: String,
-    pub check: Arc<dyn Fn(&dyn Svm, &ExecResult) -> bool + Send + Sync>,
+    pub check: InvariantFn,
 }
 
 /// Run the fuzzer for one instruction, returning all findings.

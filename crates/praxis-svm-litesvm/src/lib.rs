@@ -30,6 +30,7 @@ impl LiteSvmBackend {
     }
 
     /// Airdrop lamports to an address (convenience wrapper).
+    #[allow(clippy::result_large_err)]
     pub fn airdrop(&mut self, to: &Pubkey, lamports: u64) -> Result<(), litesvm::types::FailedTransactionMetadata> {
         self.inner.airdrop(to, lamports).map(|_| ())
     }
@@ -159,7 +160,6 @@ mod tests {
         pubkey::Pubkey,
         signature::Keypair,
         signer::Signer,
-        system_instruction,
         transaction::Transaction,
     };
 
@@ -170,7 +170,7 @@ mod tests {
         lamports: u64,
     ) -> Transaction {
         let blockhash = svm.inner.latest_blockhash();
-        let ix = system_instruction::transfer(&from.pubkey(), to, lamports);
+        let ix = solana_sdk::system_instruction::transfer(&from.pubkey(), to, lamports);
         let msg = Message::new(&[ix], Some(&from.pubkey()));
         Transaction::new(&[from], msg, blockhash)
     }
