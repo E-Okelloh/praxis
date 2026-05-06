@@ -1,11 +1,9 @@
 //! Adversarial mutation strategies.  Each strategy is a pure function:
 //! `(NormalInstruction, AccountSet, u64 seed) -> AccountSet`.
-use std::sync::Arc;
+use praxis_core::{AccountConstraint, NormalInstruction};
+use solana_sdk::{account::Account, pubkey::Pubkey};
 
-use praxis_core::{AccountConstraint, NormalInstruction, PdaProgram, PdaRule, SeedComponent};
-use solana_sdk::{account::Account, pubkey::Pubkey, signature::Keypair, signer::Signer};
-
-use crate::{rng::Rng, AccountEntry, AccountSet};
+use crate::{rng::Rng, AccountSet};
 
 /// The six Phase-1 mutation strategies from CLAUDE.md §11.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]

@@ -17,6 +17,9 @@ borsh = "0.10"
 # indexmap 2.14+ and blake3 1.6+ both adopt edition2024 transitively.
 indexmap = "=2.7.1"
 blake3 = ">=1, <1.6"
+# proc-macro-crate 3.4+ depends on toml_edit 0.23 → toml_parser (edition2024).
+# Pin to 3.2.x which still uses toml_edit 0.22.
+proc-macro-crate = ">=3, <3.4"
 
 [dev-dependencies]
 # Used only for host-side tests; not compiled to BPF.

@@ -9,3 +9,5 @@ license.workspace = true
 [dependencies]
 thiserror.workspace = true
 praxis-core = { path = "../praxis-core" }
+praxis-svm-litesvm = { path = "../praxis-svm-litesvm" }
+solana-sdk.workspace = true

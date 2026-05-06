@@ -9,3 +9,7 @@ license.workspace = true
 [dependencies]
 thiserror.workspace = true
 praxis-core = { path = "../praxis-core" }
+inferno = "0.12.6"
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+tracing.workspace = true

@@ -351,8 +351,6 @@ fail_on    = "high"
 
 
 
-
-
 ## 15. What NOT to do
 
 - **Do not start Phase 2 work in Phase 1.** No premature CU profiling, no premature check pack scaffolding. Resist.

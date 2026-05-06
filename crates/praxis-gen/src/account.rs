@@ -4,13 +4,7 @@ use std::sync::Arc;
 use praxis_core::{
     AccountConstraint, IxAccountMeta, KnownProgram, NormalInstruction, PdaProgram, SeedComponent,
 };
-use solana_sdk::{
-    account::Account,
-    pubkey::Pubkey,
-    signature::Keypair,
-    signer::Signer,
-    system_program,
-};
+use solana_sdk::{account::Account, pubkey::Pubkey, signature::Keypair};
 
 use crate::{rng::Rng, AccountEntry, AccountSet};
 
@@ -83,7 +77,7 @@ fn spawn_entry(
 
         // ── Init (allocate space) ────────────────────────────────────────────
         Some(AccountConstraint::Init { space, .. }) => {
-            let kp = Arc::new(Keypair::from_bytes(&rng.next_bytes::<64>()).unwrap_or_else(|_| Keypair::new()));
+            let kp = Arc::new(Keypair::try_from(rng.next_bytes::<64>().as_slice()).unwrap_or_else(|_| Keypair::new()));
             let mut acc = default_lamports();
             acc.data = vec![0u8; *space as usize];
             acc.owner = program_id;
@@ -92,13 +86,13 @@ fn spawn_entry(
 
         // ── Signer ───────────────────────────────────────────────────────────
         Some(AccountConstraint::Signer) => {
-            let kp = Arc::new(Keypair::from_bytes(&rng.next_bytes::<64>()).unwrap_or_else(|_| Keypair::new()));
+            let kp = Arc::new(Keypair::try_from(rng.next_bytes::<64>().as_slice()).unwrap_or_else(|_| Keypair::new()));
             AccountEntry::new_signer(kp, default_lamports())
         }
 
         // ── Signer flag without explicit constraint ───────────────────────────
         None if meta.signer => {
-            let kp = Arc::new(Keypair::from_bytes(&rng.next_bytes::<64>()).unwrap_or_else(|_| Keypair::new()));
+            let kp = Arc::new(Keypair::try_from(rng.next_bytes::<64>().as_slice()).unwrap_or_else(|_| Keypair::new()));
             AccountEntry::new_signer(kp, default_lamports())
         }
 
@@ -138,7 +132,7 @@ fn resolve_seed(component: &SeedComponent, existing: &AccountSet, rng: &mut Rng)
 
 fn known_program_id(k: &KnownProgram) -> Pubkey {
     match k {
-        KnownProgram::System => system_program::ID,
+        KnownProgram::System => solana_sdk::system_program::ID,
         KnownProgram::Token => spl_token_id(),
         KnownProgram::Token2022 => spl_token_2022_id(),
         KnownProgram::AssociatedToken => spl_associated_token_id(),
