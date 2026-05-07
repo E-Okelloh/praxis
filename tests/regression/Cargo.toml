@@ -1,0 +1,15 @@
+[package]
+name = "praxis-regression"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dev-dependencies]
+praxis-core         = { path = "../../crates/praxis-core" }
+praxis-svm-litesvm  = { path = "../../crates/praxis-svm-litesvm" }
+praxis-checks       = { path = "../../crates/praxis-checks" }
+solana-sdk          = "2"

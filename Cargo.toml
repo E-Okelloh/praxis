@@ -15,6 +15,7 @@ members = [
     "crates/praxis-macros",
     "crates/praxis-cli",
     "tests/e2e",
+    "tests/regression",
     # examples/escrow-anchor is compiled separately via cargo build-sbf
     # (it uses solana-program 1.18 which conflicts with litesvm's solana 2.x deps)
 ]
@@ -25,7 +26,11 @@ edition = "2021"
 rust-version = "1.82"
 license = "Apache-2.0 OR MIT"
 authors = ["Praxis Contributors"]
-repository = "https://github.com/praxis-rs/praxis"
+repository = "https://github.com/E-Okelloh/praxis"
+homepage = "https://github.com/E-Okelloh/praxis"
+documentation = "https://docs.rs/praxis"
+keywords = ["solana", "fuzzing", "testing", "security", "audit"]
+categories = ["development-tools::testing", "cryptography::cryptocurrencies"]
 
 [workspace.dependencies]
 thiserror = "1"

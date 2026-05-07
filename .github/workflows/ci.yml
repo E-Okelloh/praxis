@@ -45,3 +45,25 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.82
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --workspace
+
+  regression:
+    name: Bug-bounty Regression Corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.82
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p praxis-regression
+
+  # Mainnet-fork tests require a live node — only run on schedule or manual dispatch.
+  fork-tests:
+    name: Mainnet-fork Integration
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.82
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test -p praxis-svm-surfpool --features mainnet-fork
+        env:
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}

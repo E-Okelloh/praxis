@@ -8,6 +8,9 @@ license.workspace = true
 
 [dependencies]
 thiserror.workspace = true
-serde.workspace = true
+serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
-praxis-core = { path = "../praxis-core" }
+praxis-core    = { path = "../praxis-core" }
+praxis-checks  = { path = "../praxis-checks" }
+praxis-fuzz    = { path = "../praxis-fuzz" }
+praxis-profile = { path = "../praxis-profile" }

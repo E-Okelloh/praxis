@@ -57,10 +57,30 @@ enum Cmd {
         #[arg(long, default_value = "high")]
         fail_on: String,
     },
-    /// Emit Markdown + JSON pre-audit report (Phase 3 — not yet implemented).
-    Report,
-    /// All-in-one CI run (Phase 3 — not yet implemented).
-    Ci,
+    /// Emit Markdown + JSON pre-audit report.
+    Report {
+        /// Path to the Anchor IDL JSON file to analyse.
+        #[arg(long)]
+        idl: Option<PathBuf>,
+        /// Output directory for generated report files (default: `.praxis/reports`).
+        #[arg(long, default_value = ".praxis/reports")]
+        output_dir: PathBuf,
+        /// Emit both Markdown and JSON (default: both).
+        #[arg(long, default_value = "markdown,json")]
+        formats: String,
+        /// Exit non-zero if any findings at or above this severity are present.
+        #[arg(long, default_value = "high")]
+        fail_on: String,
+    },
+    /// All-in-one CI run: check + report, exit code per severity.
+    Ci {
+        /// Path to the Anchor IDL JSON file to analyse.
+        #[arg(long)]
+        idl: Option<PathBuf>,
+        /// Fail on findings at or above this severity.
+        #[arg(long, default_value = "high")]
+        fail_on: String,
+    },
     /// Scaffold `.praxis/` directory and `praxis.toml`.
     Init {
         #[arg(short, long, default_value = ".")]
@@ -106,9 +126,10 @@ fn main() -> Result<()> {
         Cmd::Init { path } => cmd_init(path),
         Cmd::Profile { cmd } => cmd_profile(cmd),
         Cmd::Check { idl, filter, fail_on } => cmd_check(idl, filter, fail_on),
-        Cmd::Report | Cmd::Ci => {
-            bail!("This subcommand is not yet implemented (Phase 3).")
+        Cmd::Report { idl, output_dir, formats, fail_on } => {
+            cmd_report(idl, output_dir, formats, fail_on)
         }
+        Cmd::Ci { idl, fail_on } => cmd_ci(idl, fail_on),
     }
 }
 
@@ -307,4 +328,89 @@ fn cmd_check(idl_path: Option<PathBuf>, filter: Option<String>, fail_on: String)
         bail!("One or more findings at or above severity `{fail_on}`.");
     }
     Ok(())
+}
+
+fn cmd_report(
+    idl_path: Option<PathBuf>,
+    output_dir: PathBuf,
+    formats: String,
+    fail_on: String,
+) -> Result<()> {
+    use praxis_checks::{check_ac_001, check_ac_002};
+    use praxis_idl::parse_anchor_idl;
+    use praxis_report::{ProgramMeta, ReportBuilder};
+
+    let idl_path = idl_path
+        .or_else(|| {
+            let raw = std::fs::read_to_string("praxis.toml").ok()?;
+            let table: toml::Value = raw.parse().ok()?;
+            Some(PathBuf::from(table.get("program")?.get("idl")?.as_str()?))
+        })
+        .context("No IDL path — provide --idl or set [program].idl in praxis.toml")?;
+
+    let idl = parse_anchor_idl(&idl_path)
+        .with_context(|| format!("parsing IDL from {}", idl_path.display()))?;
+
+    let meta = ProgramMeta {
+        name: idl.name.clone(),
+        program_id: idl.program_id.to_string(),
+        version: idl.version.clone(),
+    };
+
+    let mut builder = ReportBuilder::new(meta);
+    builder.add_check_findings(check_ac_001(&idl));
+    builder.add_check_findings(check_ac_002(&idl));
+
+    let report = builder.build();
+
+    std::fs::create_dir_all(&output_dir)
+        .with_context(|| format!("creating {}", output_dir.display()))?;
+
+    let emit_md = formats.contains("markdown");
+    let emit_json = formats.contains("json");
+
+    if emit_md {
+        let path = output_dir.join(format!("{}.md", idl.name));
+        std::fs::write(&path, report.to_markdown())
+            .with_context(|| format!("writing {}", path.display()))?;
+        println!("Markdown report: {}", path.display());
+    }
+    if emit_json {
+        let path = output_dir.join(format!("{}.json", idl.name));
+        std::fs::write(&path, report.to_json()?)
+            .with_context(|| format!("writing {}", path.display()))?;
+        println!("JSON report:     {}", path.display());
+    }
+
+    println!(
+        "\nFindings: {} critical, {} high, {} medium, {} info",
+        report.summary.critical,
+        report.summary.high,
+        report.summary.medium,
+        report.summary.info,
+    );
+
+    let fail_severity = parse_severity(&fail_on)?;
+    if report.has_findings_at(&fail_severity) {
+        bail!("Report contains findings at or above severity `{fail_on}`.");
+    }
+    Ok(())
+}
+
+fn cmd_ci(idl_path: Option<PathBuf>, fail_on: String) -> Result<()> {
+    // ci = check + report in one shot
+    cmd_check(idl_path.clone(), None, fail_on.clone())?;
+    let output_dir = PathBuf::from(".praxis/reports");
+    cmd_report(idl_path, output_dir, "markdown,json".into(), fail_on)
+}
+
+fn parse_severity(s: &str) -> Result<praxis_report::Severity> {
+    use praxis_report::Severity;
+    match s.to_lowercase().as_str() {
+        "info" => Ok(Severity::Info),
+        "medium" => Ok(Severity::Medium),
+        "high" => Ok(Severity::High),
+        "critical" => Ok(Severity::Critical),
+        other => bail!("Unknown severity `{other}`. Use: info, medium, high, critical"),
+    }
 }

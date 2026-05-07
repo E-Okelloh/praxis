@@ -8,4 +8,18 @@ license.workspace = true
 
 [dependencies]
 thiserror.workspace = true
-praxis-core = { path = "../praxis-core" }
+praxis-core        = { path = "../praxis-core" }
+praxis-svm-litesvm = { path = "../praxis-svm-litesvm" }
+solana-sdk.workspace = true
+serde_json.workspace = true
+
+[dependencies.reqwest]
+version = "0.12"
+features = ["json"]
+optional = true
+
+[features]
+mainnet-fork = ["reqwest"]
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }
