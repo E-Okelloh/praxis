@@ -1,5 +1,5 @@
 [package]
-name = "praxis-cli"
+name = "e-okelloh-praxis-cli"
 description = "Praxis CLI — Solana program testing, fuzzing, and auditing"
 version.workspace = true
 edition.workspace = true
@@ -18,10 +18,10 @@ path = "src/main.rs"
 anyhow.workspace = true
 clap = { version = "4", features = ["derive"] }
 serde_json.workspace = true
-praxis-profile = { path = "../praxis-profile" }
-praxis-checks  = { path = "../praxis-checks" }
-praxis-idl     = { path = "../praxis-idl" }
-praxis-report  = { path = "../praxis-report" }
+praxis-profile = { package = "e-okelloh-praxis-profile", path = "../praxis-profile", version = "0.1.0" }
+praxis-checks  = { package = "e-okelloh-praxis-checks",  path = "../praxis-checks",  version = "0.1.0" }
+praxis-idl     = { package = "e-okelloh-praxis-idl",     path = "../praxis-idl",     version = "0.1.0" }
+praxis-report  = { package = "e-okelloh-praxis-report",  path = "../praxis-report",  version = "0.1.0" }
 tracing.workspace = true
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 toml = "0.8"

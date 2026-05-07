@@ -1,11 +1,15 @@
 [package]
-name = "praxis"
+name = "e-okelloh-praxis"
 description = "Rust-native testing, fuzzing, and profiling framework for Solana programs"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
-praxis-core = { path = "../praxis-core" }
-praxis-fuzz = { path = "../praxis-fuzz" }
+praxis-core = { package = "e-okelloh-praxis-core", path = "../praxis-core", version = "0.1.0" }
+praxis-fuzz = { package = "e-okelloh-praxis-fuzz", path = "../praxis-fuzz", version = "0.1.0" }

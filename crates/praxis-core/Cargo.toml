@@ -1,10 +1,14 @@
 [package]
-name = "praxis-core"
-description = "Core types, Svm trait, NormalIdl"
+name = "e-okelloh-praxis-core"
+description = "Core types, Svm trait, NormalIdl — Praxis Solana fuzzing framework"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 thiserror.workspace = true

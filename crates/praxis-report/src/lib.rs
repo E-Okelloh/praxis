@@ -8,7 +8,7 @@
 //! # Example
 //!
 //! ```rust
-//! use praxis_report::{ReportBuilder, ProgramMeta};
+//! use e_okelloh_praxis_report::{ReportBuilder, ProgramMeta};
 //!
 //! let mut builder = ReportBuilder::new(ProgramMeta {
 //!     name: "escrow".into(),

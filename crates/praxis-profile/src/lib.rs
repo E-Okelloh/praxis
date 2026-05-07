@@ -3,7 +3,7 @@
 //! # Usage
 //!
 //! ```no_run
-//! use praxis_profile::{Profiler, Sample};
+//! use e_okelloh_praxis_profile::{Profiler, Sample};
 //!
 //! let mut profiler = Profiler::new("my_program");
 //! profiler.record(Sample { label: "initialize".into(), cu: 1_200 });

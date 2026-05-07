@@ -10,6 +10,6 @@ publish = false
 path = "src/lib.rs"
 
 [dev-dependencies]
-praxis-svm-litesvm = { path = "../../crates/praxis-svm-litesvm" }
-praxis-core         = { path = "../../crates/praxis-core" }
-solana-sdk          = "2"
+praxis-svm-litesvm = { package = "e-okelloh-praxis-svm-litesvm", path = "../../crates/praxis-svm-litesvm" }
+praxis-core        = { package = "e-okelloh-praxis-core",        path = "../../crates/praxis-core" }
+solana-sdk         = "2"

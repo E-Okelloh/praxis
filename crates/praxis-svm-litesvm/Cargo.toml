@@ -1,14 +1,18 @@
 [package]
-name = "praxis-svm-litesvm"
+name = "e-okelloh-praxis-svm-litesvm"
 description = "LiteSVM backend for the Praxis Svm trait"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 thiserror.workspace = true
-praxis-core = { path = "../praxis-core" }
+praxis-core = { package = "e-okelloh-praxis-core", path = "../praxis-core", version = "0.1.0" }
 litesvm = "0.7"
 solana-sdk.workspace = true
 

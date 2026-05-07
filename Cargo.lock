@@ -1040,6 +1040,151 @@ dependencies = [
 ]
 
 [[package]]
+name = "e-okelloh-praxis"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-fuzz",
+]
+
+[[package]]
+name = "e-okelloh-praxis-checks"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "serde",
+ "serde_json",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "e-okelloh-praxis-checks",
+ "e-okelloh-praxis-idl",
+ "e-okelloh-praxis-profile",
+ "e-okelloh-praxis-report",
+ "serde_json",
+ "toml 0.8.23",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "e-okelloh-praxis-core"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-fuzz"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-gen",
+ "proptest",
+ "serde",
+ "serde_json",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-gen"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-idl"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang-idl-spec",
+ "e-okelloh-praxis-core",
+ "serde",
+ "serde_json",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
+]
+
+[[package]]
+name = "e-okelloh-praxis-profile"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "inferno",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tracing",
+]
+
+[[package]]
+name = "e-okelloh-praxis-report"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-checks",
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-fuzz",
+ "e-okelloh-praxis-profile",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-svm-litesvm"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "litesvm",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-svm-mollusk"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-svm-litesvm",
+ "solana-sdk",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "e-okelloh-praxis-svm-surfpool"
+version = "0.1.0"
+dependencies = [
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-svm-litesvm",
+ "reqwest",
+ "serde_json",
+ "solana-sdk",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
 name = "eager"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2385,167 +2530,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "praxis"
-version = "0.1.0"
-dependencies = [
- "praxis-core",
- "praxis-fuzz",
-]
-
-[[package]]
-name = "praxis-checks"
-version = "0.1.0"
-dependencies = [
- "praxis-core",
- "serde",
- "serde_json",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-cli"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "praxis-checks",
- "praxis-idl",
- "praxis-profile",
- "praxis-report",
- "serde_json",
- "toml 0.8.23",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "praxis-core"
-version = "0.1.0"
-dependencies = [
- "serde",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
 name = "praxis-e2e"
 version = "0.1.0"
 dependencies = [
- "praxis-core",
- "praxis-svm-litesvm",
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-svm-litesvm",
  "solana-sdk",
-]
-
-[[package]]
-name = "praxis-fuzz"
-version = "0.1.0"
-dependencies = [
- "praxis-core",
- "praxis-gen",
- "proptest",
- "serde",
- "serde_json",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-gen"
-version = "0.1.0"
-dependencies = [
- "praxis-core",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-idl"
-version = "0.1.0"
-dependencies = [
- "anchor-lang-idl-spec",
- "praxis-core",
- "serde",
- "serde_json",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-macros"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "praxis-profile"
-version = "0.1.0"
-dependencies = [
- "inferno",
- "praxis-core",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tracing",
 ]
 
 [[package]]
 name = "praxis-regression"
 version = "0.1.0"
 dependencies = [
- "praxis-checks",
- "praxis-core",
- "praxis-svm-litesvm",
+ "e-okelloh-praxis-checks",
+ "e-okelloh-praxis-core",
+ "e-okelloh-praxis-svm-litesvm",
  "solana-sdk",
-]
-
-[[package]]
-name = "praxis-report"
-version = "0.1.0"
-dependencies = [
- "praxis-checks",
- "praxis-core",
- "praxis-fuzz",
- "praxis-profile",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-svm-litesvm"
-version = "0.1.0"
-dependencies = [
- "litesvm",
- "praxis-core",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-svm-mollusk"
-version = "0.1.0"
-dependencies = [
- "praxis-core",
- "praxis-svm-litesvm",
- "solana-sdk",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "praxis-svm-surfpool"
-version = "0.1.0"
-dependencies = [
- "praxis-core",
- "praxis-svm-litesvm",
- "reqwest",
- "serde_json",
- "solana-sdk",
- "thiserror 1.0.69",
- "tokio",
 ]
 
 [[package]]

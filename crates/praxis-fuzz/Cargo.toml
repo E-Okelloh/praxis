@@ -1,16 +1,20 @@
 [package]
-name = "praxis-fuzz"
+name = "e-okelloh-praxis-fuzz"
 description = "Invariant fuzzer engine"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 thiserror.workspace = true
 serde.workspace = true
 serde_json.workspace = true
-praxis-core = { path = "../praxis-core" }
-praxis-gen = { path = "../praxis-gen" }
+praxis-core = { package = "e-okelloh-praxis-core", path = "../praxis-core", version = "0.1.0" }
+praxis-gen  = { package = "e-okelloh-praxis-gen",  path = "../praxis-gen",  version = "0.1.0" }
 solana-sdk.workspace = true
 proptest.workspace = true

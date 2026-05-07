@@ -1,16 +1,20 @@
 [package]
-name = "praxis-idl"
+name = "e-okelloh-praxis-idl"
 description = "IDL ingestion (Anchor, Codama, Shank)"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 thiserror.workspace = true
 serde.workspace = true
 serde_json.workspace = true
-praxis-core = { path = "../praxis-core" }
+praxis-core = { package = "e-okelloh-praxis-core", path = "../praxis-core", version = "0.1.0" }
 anchor-lang-idl-spec = "0.1"
 solana-sdk.workspace = true
 

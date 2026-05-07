@@ -1,13 +1,17 @@
 [package]
-name = "praxis-svm-mollusk"
+name = "e-okelloh-praxis-svm-mollusk"
 description = "Mollusk backend"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
 
 [dependencies]
 thiserror.workspace = true
-praxis-core = { path = "../praxis-core" }
-praxis-svm-litesvm = { path = "../praxis-svm-litesvm" }
+praxis-core        = { package = "e-okelloh-praxis-core",        path = "../praxis-core",        version = "0.1.0" }
+praxis-svm-litesvm = { package = "e-okelloh-praxis-svm-litesvm", path = "../praxis-svm-litesvm", version = "0.1.0" }
 solana-sdk.workspace = true
