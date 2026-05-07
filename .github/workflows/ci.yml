@@ -4,26 +4,47 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    # Weekly run every Monday at 03:00 UTC — keeps the mainnet-fork test alive
+    # and catches upstream dep regressions before they hit a release.
+    - cron: "0 3 * * 1"
+
+# Cancel any in-progress run for the same branch/PR when a new commit arrives.
+# This prevents stale runs from consuming quota after fast follow-up pushes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  # Disable incremental compilation in CI — avoids stale-artifact bugs and
+  # produces smaller, more cacheable build artefacts.
+  CARGO_INCREMENTAL: 0
+  # Faster linker on Linux.
+  CARGO_NET_RETRY: 3
 
 jobs:
+  # ── 1. Format ────────────────────────────────────────────────────────────────
   fmt:
     name: Format
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.82
         with:
           components: rustfmt
+      - uses: Swatinem/rust-cache@v2
       - run: cargo fmt --all -- --check
 
+  # ── 2. Clippy ────────────────────────────────────────────────────────────────
   clippy:
-    name: Clippy
+    name: Clippy (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
+      fail-fast: false          # show failures on both OSes in one run
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
@@ -32,12 +53,16 @@ jobs:
         with:
           components: clippy
       - uses: Swatinem/rust-cache@v2
-      - run: cargo clippy --all-targets --all-features -- -D warnings
+      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
+  # ── 3. Tests ─────────────────────────────────────────────────────────────────
   test:
-    name: Test
+    name: Test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    needs: [fmt, clippy]        # don't waste time running tests if fmt/lint fails
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
@@ -46,24 +71,58 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --workspace
 
+  # ── 4. Bug-bounty regression corpus ──────────────────────────────────────────
   regression:
     name: Bug-bounty Regression Corpus
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [test]               # only run after core tests pass
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.82
       - uses: Swatinem/rust-cache@v2
-      - run: cargo test -p praxis-regression
+      - run: cargo test -p praxis-regression -- --nocapture
 
-  # Mainnet-fork tests require a live node — only run on schedule or manual dispatch.
+  # ── 5. MSRV gate ─────────────────────────────────────────────────────────────
+  # Verifies the codebase actually compiles on the declared minimum Rust version.
+  # Uses a separate step so the toolchain mismatch is immediately visible.
+  msrv:
+    name: MSRV (1.82)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.82
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --workspace
+
+  # ── 6. Dependency audit ───────────────────────────────────────────────────────
+  # Checks all deps for known CVEs using the RustSec advisory database.
+  # Runs on every push to main and on the weekly schedule.
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'push' || github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rustsec/audit-check@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── 7. Mainnet-fork integration ───────────────────────────────────────────────
+  # Requires a live Solana RPC — runs only on schedule or manual dispatch to
+  # avoid burning RPC credits on every PR.
   fork-tests:
     name: Mainnet-fork Integration
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.82
       - uses: Swatinem/rust-cache@v2
-      - run: cargo test -p praxis-svm-surfpool --features mainnet-fork
+      - name: Run mainnet-fork tests
+        run: cargo test -p e-okelloh-praxis-svm-surfpool --features mainnet-fork
         env:
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}

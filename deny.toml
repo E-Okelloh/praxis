@@ -1,0 +1,41 @@
+[graph]
+targets = []
+
+# ── Advisories ────────────────────────────────────────────────────────────────
+[advisories]
+version = 2
+# Fail on any unpatched vulnerability in the RustSec database.
+ignore = []
+
+# ── Licenses ─────────────────────────────────────────────────────────────────
+[licenses]
+version = 2
+# Praxis is Apache-2.0 OR MIT. Only allow compatible permissive licenses.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-DFS-2016",
+    "Zlib",
+    "CC0-1.0",
+    "OpenSSL",
+]
+
+# ── Bans ──────────────────────────────────────────────────────────────────────
+[bans]
+# Deny multiple versions of the same crate (dependency diamond) unless
+# explicitly allowed below. This keeps the binary size predictable.
+multiple-versions = "warn"
+# Never allow known-bad crates.
+deny = []
+
+# ── Sources ───────────────────────────────────────────────────────────────────
+[sources]
+# Only allow crates from crates.io (no git deps, no local-only path deps
+# that aren't in the workspace).
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
