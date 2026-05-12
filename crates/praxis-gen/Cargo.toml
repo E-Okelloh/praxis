@@ -4,6 +4,7 @@ description = "Adversarial account generators and mutation strategies"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
+readme = "README.md"
 license.workspace = true
 repository.workspace = true
 homepage.workspace = true
